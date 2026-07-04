@@ -179,9 +179,9 @@
       <p>A small program that checks your browser for your existing ESPN login &mdash; it doesn't ask for your password.</p>
       <a class="btn" id="download-btn" href="#">Download for your device</a>
       <p id="other-os" style="margin-top: 0.75rem; font-size: 0.85rem;">
-        Not the right one? <a href="https://github.com/YOUR_USERNAME/YOUR_REPO/releases/latest/download/get_espn_credentials-windows.exe">Windows</a> ·
-        <a href="https://github.com/YOUR_USERNAME/YOUR_REPO/releases/latest/download/get_espn_credentials-macos">macOS</a> ·
-        <a href="https://github.com/YOUR_USERNAME/YOUR_REPO/releases/latest/download/get_espn_credentials-linux">Linux</a>
+        Not the right one? <a href="https://github.com/shaggycamel/nba_fty_cookies/releases/latest/download/get_espn_credentials-windows.exe">Windows</a> ·
+        <a href="https://github.com/shaggycamel/nba_fty_cookies/releases/latest/download/get_espn_credentials-macos">macOS</a> ·
+        <a href="https://github.com/shaggycamel/nba_fty_cookies/releases/latest/download/get_espn_credentials-linux">Linux</a>
       </p>
     </div>
   </div>
@@ -232,7 +232,7 @@
 
   const detected = detectOS();
   const downloadBtn = document.getElementById('download-btn');
-  downloadBtn.href = `https://github.com/YOUR_USERNAME/YOUR_REPO/releases/latest/download/${detected.asset}`;
+  downloadBtn.href = `https://github.com/shaggycamel/nba_fty_cookies/releases/latest/download/${detected.asset}`;
   downloadBtn.textContent = detected.label;
 
   function copyField(id) {
