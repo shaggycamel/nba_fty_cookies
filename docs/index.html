@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connect your ESPN league</title>
+<style>
+  :root {
+    --ink: #12181f;
+    --panel: #1b232c;
+    --line: #2b3540;
+    --paper: #e8ebee;
+    --dim: #8b97a3;
+    --court: #d9713c;
+    --court-dim: #6b3a22;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.5;
+  }
+
+  main {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 5rem;
+  }
+
+  .eyebrow {
+    font-family: "JetBrains Mono", "SF Mono", Consolas, monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--court);
+    margin: 0 0 0.75rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.75rem;
+  }
+
+  .lede {
+    color: var(--dim);
+    font-size: 1.05rem;
+    margin: 0 0 3rem;
+    max-width: 46ch;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 1rem;
+    padding: 1.75rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .step:last-child { border-bottom: 1px solid var(--line); }
+
+  .step-num {
+    font-family: "JetBrains Mono", "SF Mono", Consolas, monospace;
+    color: var(--court);
+    font-size: 0.95rem;
+    padding-top: 0.15rem;
+  }
+
+  .step h2 {
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .step p {
+    color: var(--dim);
+    margin: 0 0 1rem;
+    font-size: 0.95rem;
+  }
+
+  .btn {
+    display: inline-block;
+    background: var(--court);
+    color: #1a1006;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.7rem 1.25rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+    transition: filter 0.15s ease;
+  }
+
+  .btn:hover { filter: brightness(1.1); }
+  .btn:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--paper);
+    border: 1px solid var(--line);
+  }
+  .btn-secondary:hover { border-color: var(--court); filter: none; }
+
+  .console {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    font-family: "JetBrains Mono", "SF Mono", Consolas, monospace;
+    font-size: 0.85rem;
+    color: var(--dim);
+    margin: 0 0 1rem;
+    overflow-x: auto;
+  }
+
+  .console .ok { color: var(--court); }
+
+  .field-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+  }
+
+  input[type="text"] {
+    flex: 1;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--paper);
+    padding: 0.6rem 0.75rem;
+    border-radius: 6px;
+    font-family: "JetBrains Mono", "SF Mono", Consolas, monospace;
+    font-size: 0.85rem;
+  }
+
+  input[type="text"]:focus-visible {
+    outline: 2px solid var(--court);
+    outline-offset: 1px;
+  }
+
+  .copy-btn {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--dim);
+    padding: 0 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+  .copy-btn:hover { color: var(--paper); border-color: var(--court); }
+
+  footer {
+    color: var(--dim);
+    font-size: 0.85rem;
+    margin-top: 3rem;
+  }
+
+  footer a { color: var(--court); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn, .copy-btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">nba.shiny · account setup</p>
+  <h1>Connect your ESPN league</h1>
+  <p class="lede">Three steps, about two minutes. Nothing here reads or sends anything on its own &mdash; you stay in control of what gets shared and when.</p>
+
+  <div class="step">
+    <div class="step-num">01</div>
+    <div>
+      <h2>Download the tool</h2>
+      <p>A small Windows program that checks your browser for your existing ESPN login &mdash; it doesn't ask for your password.</p>
+      <!-- Replace with your actual GitHub Release asset URL -->
+      <a class="btn" href="https://github.com/YOUR_USERNAME/YOUR_REPO/releases/latest/download/get_espn_credentials.exe">Download get_espn_credentials.exe</a>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">02</div>
+    <div>
+      <h2>Run it</h2>
+      <p>Double-click the downloaded file. If Windows shows an "unrecognized publisher" warning, click <strong>More info &rarr; Run anyway</strong> &mdash; that's expected for a small unsigned tool like this.</p>
+      <p>You'll see something like this:</p>
+      <div class="console">Looking for ESPN Fantasy login cookies in your browsers...<br><br><span class="ok">Found credentials in Chrome!</span><br><br>SWID: {1A2B3C4D-...}<br>espn_s2: AEB3x9f...<br><br>Copy both values above and send them back as instructed.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">03</div>
+    <div>
+      <h2>Send the two values back</h2>
+      <p>Paste them in below, then hit send &mdash; it opens your email client with everything filled in already.</p>
+      <div class="field-row">
+        <input type="text" id="swid" placeholder="SWID">
+        <button class="copy-btn" onclick="copyField('swid')">Copy</button>
+      </div>
+      <div class="field-row">
+        <input type="text" id="espns2" placeholder="espn_s2">
+        <button class="copy-btn" onclick="copyField('espns2')">Copy</button>
+      </div>
+      <!-- Replace with your actual email address -->
+      <a class="btn btn-secondary" id="mailto-btn" href="#">Open email to send these</a>
+    </div>
+  </div>
+
+  <footer>
+    Questions? Reach out directly &mdash; this page doesn't store or transmit anything by itself.
+  </footer>
+</main>
+
+<script>
+  function copyField(id) {
+    const el = document.getElementById(id);
+    if (el.value) navigator.clipboard.writeText(el.value);
+  }
+
+  function updateMailto() {
+    const swid = document.getElementById('swid').value;
+    const espns2 = document.getElementById('espns2').value;
+    const body = encodeURIComponent(`SWID: ${swid}\nespn_s2: ${espns2}`);
+    // Replace [email protected] with your real address
+    document.getElementById('mailto-btn').href =
+      `mailto:[email protected]?subject=ESPN%20league%20credentials&body=${body}`;
+  }
+
+  document.getElementById('swid').addEventListener('input', updateMailto);
+  document.getElementById('espns2').addEventListener('input', updateMailto);
+</script>
+</body>
+</html>

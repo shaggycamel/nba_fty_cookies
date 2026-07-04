@@ -1,0 +1,42 @@
+name: Deploy Landing Page
+
+# One-time setup required (can't be done from the workflow file itself):
+#   Repo Settings → Pages → Source → set to "GitHub Actions"
+#
+# After that, this deploys docs/index.html to your Pages URL
+# (https://<username>.github.io/<repo>/) automatically on push,
+# or on demand via the Actions tab → "Run workflow".
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "docs/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'docs'
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

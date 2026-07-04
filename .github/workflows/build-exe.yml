@@ -1,0 +1,51 @@
+name: Build ESPN Credential Extractor EXE
+
+# Put this file at .github/workflows/build-exe.yml in your repo,
+# alongside get_espn_credentials.py in the repo root.
+#
+# Trigger it manually from the Actions tab ("Run workflow"), or it'll
+# run automatically whenever get_espn_credentials.py changes.
+#
+# This both uploads a workflow artifact (handy for quick testing) AND
+# publishes/updates a GitHub Release called "latest" with the .exe
+# attached — that Release asset URL is what index.html's download
+# button links to, since it's stable (unlike artifacts, which expire
+# after 90 days).
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'get_espn_credentials.py'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install pyinstaller browser-cookie3
+
+      - name: Build exe
+        run: pyinstaller --onefile --console --name get_espn_credentials get_espn_credentials.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: get_espn_credentials-windows
+          path: dist/get_espn_credentials.exe
+
+      - name: Publish to latest release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest build
+          files: dist/get_espn_credentials.exe
