@@ -1,4 +1,4 @@
-name: Build ESPN Credential Extractor EXE
+name: Build ESPN Credential Extractor Binaries
 
 # Put this file at .github/workflows/build-exe.yml in your repo,
 # alongside get_espn_credentials.py in the repo root.
@@ -6,11 +6,9 @@ name: Build ESPN Credential Extractor EXE
 # Trigger it manually from the Actions tab ("Run workflow"), or it'll
 # run automatically whenever get_espn_credentials.py changes.
 #
-# This both uploads a workflow artifact (handy for quick testing) AND
-# publishes/updates a GitHub Release called "latest" with the .exe
-# attached — that Release asset URL is what index.html's download
-# button links to, since it's stable (unlike artifacts, which expire
-# after 90 days).
+# Builds a native binary on Windows, macOS, and Linux runners (PyInstaller
+# doesn't cross-compile, so each OS has to build its own copy), then
+# publishes all three to a single GitHub Release tagged "latest".
 
 on:
   workflow_dispatch:
@@ -23,7 +21,20 @@ permissions:
 
 jobs:
   build:
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            asset_name: get_espn_credentials-windows.exe
+            build_path: dist/get_espn_credentials.exe
+          - os: macos-latest
+            asset_name: get_espn_credentials-macos
+            build_path: dist/get_espn_credentials
+          - os: ubuntu-latest
+            asset_name: get_espn_credentials-linux
+            build_path: dist/get_espn_credentials
+
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
 
@@ -34,18 +45,22 @@ jobs:
       - name: Install dependencies
         run: pip install pyinstaller browser-cookie3
 
-      - name: Build exe
+      - name: Build binary
         run: pyinstaller --onefile --console --name get_espn_credentials get_espn_credentials.py
+
+      - name: Rename binary for this OS
+        shell: bash
+        run: cp "${{ matrix.build_path }}" "${{ matrix.asset_name }}"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: get_espn_credentials-windows
-          path: dist/get_espn_credentials.exe
+          name: ${{ matrix.asset_name }}
+          path: ${{ matrix.asset_name }}
 
       - name: Publish to latest release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: latest
           name: Latest build
-          files: dist/get_espn_credentials.exe
+          files: ${{ matrix.asset_name }}

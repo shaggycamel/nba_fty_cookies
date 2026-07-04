@@ -176,9 +176,13 @@
     <div class="step-num">01</div>
     <div>
       <h2>Download the tool</h2>
-      <p>A small Windows program that checks your browser for your existing ESPN login &mdash; it doesn't ask for your password.</p>
-      <!-- Replace with your actual GitHub Release asset URL -->
-      <a class="btn" href="https://github.com/shaggycamel/nba_fty_cookies/releases/latest/download/get_espn_credentials.exe">Download get_espn_credentials.exe</a>
+      <p>A small program that checks your browser for your existing ESPN login &mdash; it doesn't ask for your password.</p>
+      <a class="btn" id="download-btn" href="#">Download for your device</a>
+      <p id="other-os" style="margin-top: 0.75rem; font-size: 0.85rem;">
+        Not the right one? <a href="https://github.com/YOUR_USERNAME/YOUR_REPO/releases/latest/download/get_espn_credentials-windows.exe">Windows</a> ·
+        <a href="https://github.com/YOUR_USERNAME/YOUR_REPO/releases/latest/download/get_espn_credentials-macos">macOS</a> ·
+        <a href="https://github.com/YOUR_USERNAME/YOUR_REPO/releases/latest/download/get_espn_credentials-linux">Linux</a>
+      </p>
     </div>
   </div>
 
@@ -186,8 +190,10 @@
     <div class="step-num">02</div>
     <div>
       <h2>Run it</h2>
-      <p>Double-click the downloaded file. If Windows shows an "unrecognized publisher" warning, click <strong>More info &rarr; Run anyway</strong> &mdash; that's expected for a small unsigned tool like this.</p>
-      <p>You'll see something like this:</p>
+      <p><strong>Windows:</strong> double-click the file. If you see an "unrecognized publisher" warning, click <strong>More info &rarr; Run anyway</strong> &mdash; expected for a small unsigned tool.</p>
+      <p><strong>Mac:</strong> right-click the downloaded file &rarr; <strong>Open</strong> (not double-click) the first time, then confirm in the dialog &mdash; macOS blocks unsigned downloads by default on a plain double-click.</p>
+      <p><strong>Linux:</strong> you may need to mark it executable first: <code>chmod +x get_espn_credentials-linux &amp;&amp; ./get_espn_credentials-linux</code></p>
+      <p>Either way, you'll see something like this:</p>
       <div class="console">Looking for ESPN Fantasy login cookies in your browsers...<br><br><span class="ok">Found credentials in Chrome!</span><br><br>SWID: {1A2B3C4D-...}<br>espn_s2: AEB3x9f...<br><br>Copy both values above and send them back as instructed.</div>
     </div>
   </div>
@@ -216,6 +222,19 @@
 </main>
 
 <script>
+  function detectOS() {
+    const ua = navigator.userAgent;
+    if (ua.includes('Mac')) return { os: 'macos', label: 'Download for Mac', asset: 'get_espn_credentials-macos' };
+    if (ua.includes('Win')) return { os: 'windows', label: 'Download for Windows', asset: 'get_espn_credentials-windows.exe' };
+    if (ua.includes('Linux')) return { os: 'linux', label: 'Download for Linux', asset: 'get_espn_credentials-linux' };
+    return { os: 'unknown', label: 'Download', asset: 'get_espn_credentials-windows.exe' };
+  }
+
+  const detected = detectOS();
+  const downloadBtn = document.getElementById('download-btn');
+  downloadBtn.href = `https://github.com/YOUR_USERNAME/YOUR_REPO/releases/latest/download/${detected.asset}`;
+  downloadBtn.textContent = detected.label;
+
   function copyField(id) {
     const el = document.getElementById(id);
     if (el.value) navigator.clipboard.writeText(el.value);
