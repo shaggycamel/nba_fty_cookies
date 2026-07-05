@@ -6,9 +6,13 @@ name: Build ESPN Credential Extractor Binaries
 # Trigger it manually from the Actions tab ("Run workflow"), or it'll
 # run automatically whenever get_espn_credentials.py changes.
 #
-# Builds a native binary on Windows, macOS, and Linux runners (PyInstaller
-# doesn't cross-compile, so each OS has to build its own copy), then
-# publishes all three to a single GitHub Release tagged "latest".
+# Builds a native console binary on Windows, macOS, and Linux runners,
+# then publishes all three to a single GitHub Release tagged "latest".
+#
+# macOS gets a bit of extra help: a raw Unix binary isn't double-clickable
+# from Finder, so the mac build ships as a zip containing the binary PLUS
+# a "Run ESPN Tool.command" launcher script. macOS Finder treats .command
+# files as double-clickable - it opens Terminal automatically and runs it.
 
 on:
   workflow_dispatch:
@@ -26,13 +30,10 @@ jobs:
         include:
           - os: windows-latest
             asset_name: get_espn_credentials-windows.exe
-            build_path: dist/get_espn_credentials.exe
           - os: macos-latest
-            asset_name: get_espn_credentials-macos
-            build_path: dist/get_espn_credentials
+            asset_name: get_espn_credentials-macos.zip
           - os: ubuntu-latest
             asset_name: get_espn_credentials-linux
-            build_path: dist/get_espn_credentials
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -45,12 +46,32 @@ jobs:
       - name: Install dependencies
         run: pip install pyinstaller browser-cookie3
 
-      - name: Build binary
+      - name: Build with PyInstaller
         run: pyinstaller --onefile --console --name get_espn_credentials get_espn_credentials.py
 
-      - name: Rename binary for this OS
+      - name: Package Windows asset
+        if: runner.os == 'Windows'
         shell: bash
-        run: cp "${{ matrix.build_path }}" "${{ matrix.asset_name }}"
+        run: cp dist/get_espn_credentials.exe "${{ matrix.asset_name }}"
+
+      - name: Package macOS asset (binary + double-clickable launcher)
+        if: runner.os == 'macOS'
+        run: |
+          cp dist/get_espn_credentials get_espn_credentials-macos
+          chmod +x get_espn_credentials-macos
+          cat > "Run ESPN Tool.command" << 'LAUNCHER'
+          #!/bin/bash
+          cd "$(dirname "$0")"
+          xattr -d com.apple.quarantine get_espn_credentials-macos 2>/dev/null
+          chmod +x get_espn_credentials-macos
+          ./get_espn_credentials-macos
+          LAUNCHER
+          chmod +x "Run ESPN Tool.command"
+          zip "${{ matrix.asset_name }}" get_espn_credentials-macos "Run ESPN Tool.command"
+
+      - name: Package Linux asset
+        if: runner.os == 'Linux'
+        run: cp dist/get_espn_credentials "${{ matrix.asset_name }}"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

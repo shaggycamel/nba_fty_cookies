@@ -76,6 +76,7 @@ def main():
     print(f"SWID: {swid}")
     print(f"espn_s2: {espn_s2}")
     print("\nCopy both values above and send them back as instructed.")
+    input("\nPress Enter to close...")
 
 
 if __name__ == "__main__":
