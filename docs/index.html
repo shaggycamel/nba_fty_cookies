@@ -180,7 +180,7 @@
       <a class="btn" id="download-btn" href="#">Download for your device</a>
       <p id="other-os" style="margin-top: 0.75rem; font-size: 0.85rem;">
         Not the right one? <a href="https://github.com/shaggycamel/nba_fty_cookies/releases/latest/download/get_espn_credentials-windows.exe">Windows</a> ·
-        <a href="https://github.com/shaggycamel/nba_fty_cookies/releases/latest/download/get_espn_credentials-macos.zip">macOS</a> ·
+        <a href="https://github.com/shaggycamel/nba_fty_cookies/releases/latest/download/get_espn_credentials-macos">macOS</a> ·
         <a href="https://github.com/shaggycamel/nba_fty_cookies/releases/latest/download/get_espn_credentials-linux">Linux</a>
       </p>
     </div>
@@ -191,8 +191,8 @@
     <div>
       <h2>Run it</h2>
       <p><strong>Windows:</strong> double-click the file. If you see an "unrecognized publisher" warning, click <strong>More info &rarr; Run anyway</strong> &mdash; expected for a small unsigned tool.</p>
-      <p><strong>Mac:</strong> unzip the download, then double-click <strong>Run ESPN Tool.command</strong>. The first time, macOS may block it &mdash; if so, right-click it &rarr; <strong>Open</strong> instead, and confirm in the dialog. It'll open a Terminal window on its own and print the values there.</p>
-      <p><strong>Linux:</strong> you may need to mark it executable first: <code>chmod +x get_espn_credentials-linux &amp;&amp; ./get_espn_credentials-linux</code></p>
+      <p><strong>Mac / Linux:</strong> open Terminal, then run (adjust the filename if it downloaded with a different name):</p>
+      <div class="console">chmod +x get_espn_credentials-macos<br>./get_espn_credentials-macos</div>
       <p>Either way, you'll see something like this:</p>
       <div class="console">Looking for ESPN Fantasy login cookies in your browsers...<br><br><span class="ok">Found credentials in Chrome!</span><br><br>SWID: {1A2B3C4D-...}<br>espn_s2: AEB3x9f...<br><br>Copy both values above and send them back as instructed.</div>
     </div>
@@ -224,7 +224,7 @@
 <script>
   function detectOS() {
     const ua = navigator.userAgent;
-    if (ua.includes('Mac')) return { os: 'macos', label: 'Download for Mac', asset: 'get_espn_credentials-macos.zip' };
+    if (ua.includes('Mac')) return { os: 'macos', label: 'Download for Mac', asset: 'get_espn_credentials-macos' };
     if (ua.includes('Win')) return { os: 'windows', label: 'Download for Windows', asset: 'get_espn_credentials-windows.exe' };
     if (ua.includes('Linux')) return { os: 'linux', label: 'Download for Linux', asset: 'get_espn_credentials-linux' };
     return { os: 'unknown', label: 'Download', asset: 'get_espn_credentials-windows.exe' };
